@@ -1,6 +1,7 @@
 ﻿using Discord;
 using Discord.Addons.Hosting;
 using Discord.Commands;
+using Discord.WebSocket;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -9,8 +10,6 @@ using Volo.Abp;
 
 namespace Sample.DiscordBot
 {
-    using Discord.WebSocket;
-
     public class Program
     {
         public static async Task<int> Main(string[] args)
