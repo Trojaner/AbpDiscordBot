@@ -215,9 +215,9 @@ namespace Sample.DiscordBot
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
             Configure<AbpPermissionOptions>(options =>
-		    {
-		       options.DefinitionProviders.Add<DiscordBotPermissionDefinitionProvider>();
-		    });	
+            {
+               options.DefinitionProviders.Add<DiscordBotPermissionDefinitionProvider>();
+            });	
         }
     }
 }
