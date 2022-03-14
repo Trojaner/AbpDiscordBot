@@ -403,21 +403,6 @@ public override void OnApplicationInitialization(ApplicationInitializationContex
 }
 ```
 
-## Adding Commands
-```c#
-namespace Sample.DiscordBot
-{
-    [DependsOn(
-        typeof(AbpDddApplicationModule),
-        typeof(DiscordBotApplicationContractsModule)
-    )]
-    public class DiscordBotApplicationModule : AbpModule
-    {
-
-    }
-}
-```
-
 ### Linking ABP Permissions
 Create a new attribute called RequireAuthorization:
 ```c#
@@ -462,6 +447,22 @@ namespace Sample.DiscordBot.Authorization
 }
 ```
 
+### Adding Commands
+Create the application module:
+```c#
+namespace Sample.DiscordBot
+{
+    [DependsOn(
+        typeof(AbpDddApplicationModule),
+        typeof(DiscordBotApplicationContractsModule)
+    )]
+    public class DiscordBotApplicationModule : AbpModule
+    {
+
+    }
+}
+```
+
 Now you can add Discord .NET command modules:
 ```c#
 public class PublicModule : ModuleBase<SocketCommandContext>
@@ -489,7 +490,7 @@ public class PublicModule : ModuleBase<SocketCommandContext>
 }
 ```
 
-Note: you don't have to register the module anywhere. Discord .NET will automatically register it.
+Note: you don't have to register this module anywhere. Discord .NET will automatically register it.
 
 ## Adding Discord Bot Token
 Create a Discord bot token as explained in [this article](https://www.writebots.com/discord-bot-token/).  After that add it to your appconfig.json like this: 
