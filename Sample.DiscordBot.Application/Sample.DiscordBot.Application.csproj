@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<RootNamespace>Sample.DiscordBot</RootNamespace>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="Discord.Net" Version="3.4.1" />
+	  <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
+	  <PackageReference Include="Volo.Abp.Ddd.Application" Version="5.1.4" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Sample.DiscordBot.Application.Contracts\Sample.DiscordBot.Application.Contracts.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Authorization\" />
+	  <Folder Include="Modules\" />
+	</ItemGroup>
+
+</Project>
