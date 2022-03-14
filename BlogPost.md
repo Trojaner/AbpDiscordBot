@@ -85,7 +85,7 @@ namespace Sample.DiscordBot
 
 ## Integrating ABP
 ### Initializing ABP
-First install the `Volo.Abp.Autofac` and `Volo.Abp.Security` packages from NuGet. Add the following lines to initializes ABP:
+We have initialize ABP first. To do that, install the `Volo.Abp.Autofac` and `Volo.Abp.Security` packages from NuGet and add the following lines:
 ```c#
 using (host)
 {
@@ -143,7 +143,7 @@ namespace Sample.DiscordBot.Authentication
 
 How you resolve users is up to you. For example, you could add a command like "!link" and redirect to your website with a token. Another alternative would be linking the discord account via the website with OpenID Connect. After that you could resolve the user with e.g. API and http proxies. 
 
-Create and register a principal accessor and register it in the host module. The principal accessor will allow services and commands to resolve the current ABP user.
+Create and register a principal accessor and register it in the application module. The principal accessor will allow services and commands to resolve the current ABP user.
 ```c#
 namespace Sample.DiscordBot.Authentication
 {
