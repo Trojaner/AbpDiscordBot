@@ -4,11 +4,9 @@ using Volo.Abp.Modularity;
 
 namespace Sample.DiscordBot
 {
-    using Permissions;
-
     [DependsOn(
         typeof(AbpAutofacModule),
-        typeof(DiscordBotPermissionDefinitionProvider))]
+        typeof(DiscordBotApplicationModule))]
     public class DiscordBotHostModule : AbpModule
     {
         public override void ConfigureServices(ServiceConfigurationContext context)

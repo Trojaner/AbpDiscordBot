@@ -19,6 +19,7 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\Sample.DiscordBot.Application.Contracts\Sample.DiscordBot.Application.Contracts.csproj" />
+	  <ProjectReference Include="..\Sample.DiscordBot.Application\Sample.DiscordBot.Application.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
