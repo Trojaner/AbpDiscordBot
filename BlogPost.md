@@ -3,7 +3,7 @@
 
 Note: this article expects that you already have a running ABP website and that the bot will complement it.  
 
- ABP has also just created [it's own Discord server](https://discord.gg/CrYrd5vcGh) too. Don't forget join it!
+ ABP has also just created [it's own Discord server](https://discord.gg/CrYrd5vcGh) too. Don't forget to join it!
 
 ## Discord Integration Libraries for .NET
 There are two popular unofficial Discord integration libraries for .NET: [DSharpPlus](https://github.com/DSharpPlus/DSharpPlus) and [Discord.NET](https://github.com/discord-net/Discord.Net). We will use Discord .NET as it is modular and supports [.NET Generic Host](https://docs.microsoft.com/en-us/dotnet/core/extensions/generic-host) integration via a [third party package](https://github.com/Hawxy/Discord.Addons.Hosting).
@@ -85,8 +85,9 @@ namespace Sample.DiscordBot
 
 ## Integrating ABP
 ### Initializing ABP
-We have initialize ABP first. To do that, install the `Volo.Abp.Autofac` and `Volo.Abp.Security` packages from NuGet and add the following lines:
+To initialze ABP, install the `Volo.Abp.Core` and `Volo.Abp.Autofac` packages from NuGet and call the ABP initialization service:
 ```c#
+...
 using (host)
 {
     // Initialize ABP
@@ -95,6 +96,7 @@ using (host)
 
     await host.RunAsync();
 }
+...
 ```
 
 ### Adding the Host module
@@ -116,13 +118,14 @@ namespace Sample.DiscordBot
 
 Register the module in the host builder and add Autofac:
 ```c#
-Host
+return Host
     ...
     .ConfigureServices((_, services) =>
     {
         services.AddApplication<DiscordBotHostModule>();
     })
     .UseAutofac()
+    ...
 ```
 
 ### Linking Discord and ABP Users
@@ -141,7 +144,7 @@ namespace Sample.DiscordBot.Authentication
 }
 ```
 
-How you resolve users is up to you. For example, you could add a command like "!link" and redirect to your website with a token. Another alternative would be linking the discord account via the website with OpenID Connect. After that you could resolve the user with e.g. API and http proxies. 
+How you resolve users is up to you. For example, you could add a command like "!link" and redirect to your website with a token. Another alternative would be linking the discord account via the website with OpenID Connect. After that you could resolve the user with an API call to your identity backend. 
 
 Create and register a principal accessor and register it in the application module. The principal accessor will allow services and commands to resolve the current ABP user.
 ```c#
@@ -163,11 +166,11 @@ namespace Sample.DiscordBot.Authentication
 }
 ```
 
-### Adding Command Permissions
+### Adding Permissions for Commands
 
- Create another new project, name it Sample.DiscordBot.Application.Contracts and install `Volo.Abp.Ddd.Domain` and `Volo.Abp.Authorization.Abstractions`.
+ Create another new project, name it Sample.DiscordBot.Application.Contracts and install the `Volo.Abp.Ddd.Domain` and `Volo.Abp.Authorization.Abstractions` packages.
  
- After that create and [register your permissions](https://docs.abp.io/en/abp/4.4/Authorization#permission-system) to ABP:
+ After that [create and register your permissions](https://docs.abp.io/en/abp/4.4/Authorization#permission-system):
  ```c#
 namespace Sample.DiscordBot.Permissions
 {
@@ -203,7 +206,7 @@ namespace Sample.DiscordBot.Permissions
 }
 ```
 
-Create the application contracts module and register the permission definitions:
+Create the application contracts ABP module and register the permission definitions:
 ```c#
 namespace Sample.DiscordBot
 {
@@ -222,8 +225,8 @@ namespace Sample.DiscordBot
     }
 }
 ```
-Don't forget to include the module as dependency in the host module.
 
+Add the application contracts module as dependency to the host module.
 
 ### Handling Discord commands
 Similar to the principal accessor, create a command context accessor in the application layer so we can access the current command context from commands and services:
@@ -255,7 +258,7 @@ Now we can implement the command handler. The command handler will
 * set the current command context and
 * set the current user and principal.
 
-The command handler is the heart of the discord bot ABP integration.
+The command handler is the heart of the discord bot ABP integration. Add the following to the host module:
 
 ```c#
 namespace Sample.DiscordBot.Commands
@@ -394,6 +397,7 @@ namespace Sample.DiscordBot.Commands
     }
 } 
 ```
+
 Update the host module to listen to Discord .NET events on application initialization:
 ```c#
 public override void OnApplicationInitialization(ApplicationInitializationContext context)
@@ -492,7 +496,7 @@ public class PublicModule : ModuleBase<SocketCommandContext>
 
 Note: you don't have to register this module anywhere. Discord .NET will automatically register it.
 
-## Adding Discord Bot Token
+## Adding the Discord Bot Token
 Create a Discord bot token as explained in [this article](https://www.writebots.com/discord-bot-token/).  After that add it to your appconfig.json like this: 
 ```json
 {
